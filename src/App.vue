@@ -9,7 +9,7 @@
       class="birthday-image" 
       @click="handleClick" 
     />
-    <audio ref="partyHorn" src="/src/audios/party-horn.mp3"></audio>
+    <audio ref="partyHorn" src="/audios/party-horn.mp3"></audio>
   </div>
 </template>
 
