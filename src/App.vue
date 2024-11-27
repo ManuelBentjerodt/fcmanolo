@@ -1,4 +1,3 @@
-<!-- App.vue -->
 <template>
   <div class="birthday-container">
     <h1>¡Feliz Cumpleaños!</h1>
@@ -10,15 +9,69 @@
       @click="handleClick" 
     />
     <audio ref="partyHorn" src="/audios/party-horn.mp3"></audio>
+
+    <!-- Cronómetro -->
+    <div class="countdown">
+      <p>Tiempo estimado de entrega del regalo: </p>
+      <div class="countdown-timer">
+          <span>{{ days }} días </span>
+          <span>{{ hours }} horas </span>
+          <span>{{ minutes }} minutos </span>
+          <span>{{ seconds }} segundos </span>
+      </div>
+    </div>
   </div>
 </template>
-
 
 <script setup>
 import confetti from 'canvas-confetti';
 import { onMounted, ref } from 'vue';
 
 const partyHorn = ref(null);
+
+// Cronómetro
+const targetDate = new Date('2024-12-14T22:00:00');
+const days = ref(0);
+const hours = ref(0);
+const minutes = ref(0);
+const seconds = ref(0);
+
+// Actualización del cronómetro
+const updateCountdown = () => {
+  const now = new Date();
+  const diff = targetDate - now;
+
+  if (diff > 0) {
+    days.value = Math.floor(diff / (1000 * 60 * 60 * 24));
+    hours.value = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes.value = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    seconds.value = Math.floor((diff % (1000 * 60)) / 1000);
+  } else {
+    days.value = hours.value = minutes.value = seconds.value = 0;
+  }
+};
+
+onMounted(() => {
+  // Lanzar confeti al cargar la página
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+
+  // Reproducir sonido de corneta de fiesta al cargar la página
+  if (partyHorn.value) {
+    partyHorn.value.play().catch(error => {
+      // console.error('Error playing audio:', error);
+    });
+  }
+
+  // Actualizar cronómetro cada segundo
+  setInterval(updateCountdown, 1000);
+
+  // Inicializar el cronómetro
+  updateCountdown();
+});
 
 // Función para manejar el clic en la imagen
 const handleClick = () => {
@@ -37,22 +90,6 @@ const handleClick = () => {
     origin: { y: 0.6 }
   });
 };
-
-onMounted(() => {
-  // Lanzar confeti al cargar la página
-  confetti({
-    particleCount: 100,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
-
-  // Reproducir sonido de corneta de fiesta al cargar la página
-  if (partyHorn.value) {
-    partyHorn.value.play().catch(error => {
-      // console.error('Error playing audio:', error);
-    });
-  }
-});
 </script>
 
 <style scoped>
@@ -108,4 +145,17 @@ p {
 .birthday-image:active {
   transform: scale(0.95); /* Hace que la imagen se reduzca un poco al hacer clic */
 }
+
+.countdown {
+  margin-top: 30px;
+  font-size: 1.2rem;
+}
+
+.countdown-timer {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e97183;
+}
+
+
 </style>
