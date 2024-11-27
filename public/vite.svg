@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="200" height="100">
+  <!-- Fondo -->
+  <circle cx="100" cy="50" r="100" fill="#FF69B4"/> <!-- Círculo rosa pastel centrado -->
+
+  <!-- Letra F -->
+  <text x="20" y="100" font-family="Arial" font-size="120" fill="yellow" font-weight="bold">F</text>
+
+  <!-- Letra C -->
+  <text x="90" y="100" font-family="Arial" font-size="120" fill="yellow" font-weight="bold">C</text>
+</svg>
